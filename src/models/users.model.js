@@ -5,9 +5,11 @@
 module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const users = new mongooseClient.Schema({
-  
+    
+    username: { type: String, unique: true },
     email: {type: String, unique: true, lowercase: true},
     password: { type: String },
+    avatar: { type: String }
   
   
   }, {
