@@ -1,5 +1,6 @@
 {
   "host": "localhost",
+  "NODE_ENV": "production",
   "port": 4200,
   "public": "../public/",
   "paginate": {
