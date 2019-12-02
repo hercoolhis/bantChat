@@ -17,7 +17,6 @@ exports.Users = class Users extends Service {
         password,
         avatar
       };
-
     return super.create(userData, params);    
 
   }
