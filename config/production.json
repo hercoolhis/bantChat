@@ -1,5 +1,5 @@
 {
-  "host": "localhost",  
+    
   "public": "../public/",
   "paginate": {
     "default": 10,
