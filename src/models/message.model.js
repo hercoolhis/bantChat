@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose =  require('mongoose');
 // message-model.js - A mongoose model
 // 
 // See http://mongoosejs.com/docs/models.html
