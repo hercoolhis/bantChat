@@ -7,7 +7,8 @@ describe('authentication', () => {
   
   describe('local strategy', () => {
     const userInfo = {
-      email: 'someone@example.com',
+      username: '123',
+      email: 'someone`2gmail.com',
       password: 'supersecret'
     };
 
