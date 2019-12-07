@@ -26,6 +26,7 @@
     "test": "npm run eslint && npm run jest",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "dev": "nodemon src/",
+    "prod": "NODE_ENV=production node  src/",
     "start": "node src/",
     "jest": "jest  --forceExit"
   },
@@ -43,6 +44,7 @@
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "feathers-mongoose": "^8.1.0",
+    "gravatar": "^1.8.0",
     "helmet": "^3.21.2",
     "mongodb-core": "^3.2.7",
     "mongoose": "^5.7.13",

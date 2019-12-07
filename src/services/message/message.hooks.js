@@ -1,18 +1,22 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
+const attachUserToMessage = require('../../hooks/attach-user-to-message');
+
+const processMessage = require('../../hooks/process-message');
+
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [ authenticate('jwt')],
     find: [],
     get: [],
-    create: [],
+    create: [processMessage()],
     update: [],
     patch: [],
     remove: []
   },
 
   after: {
-    all: [],
+    all: [attachUserToMessage()],
     find: [],
     get: [],
     create: [],
