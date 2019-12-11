@@ -1,3 +1,4 @@
+
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const signUpFunction = async () => {  
@@ -41,6 +42,48 @@ const showSignUp = () => {
 
 const showLogIn = () => {
   document.body.innerHTML = loginHTML;
+};
+
+const showUserChat = async (userEmail, userId) => {
+
+  document.getElementsByClassName('chat')[0].innerHTML = '';  
+  
+  const chatUserName = await client.service('users').find({
+    query: {
+      email: {
+        $in: [ userEmail ]
+      },
+      $select: [ 'username' ]
+    }
+  });
+
+  const partnerUserName = chatUserName.data[0].username;
+
+  const recipientMessages = await client.service('message').find({
+      query: {   
+        recipient: localStorage.getItem('user-email'),       
+        user: userId   
+      }
+    }),
+    sentMessages = await client.service('message').find({
+      query: {          
+        user: localStorage.getItem('user-id'),
+        recipient: userEmail
+      }
+    });
+
+  recipientMessages.data.forEach((message) => {
+    message.type = 'recipient';
+  });
+
+  const allMessages = recipientMessages.data.concat(sentMessages.data);
+
+  
+  // We want to show the newest message last
+  allMessages.reverse().forEach(addMessage);
+
+  document.getElementById('chat-name').innerHTML = `${ partnerUserName }`;
+  
 };
 
 

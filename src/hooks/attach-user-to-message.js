@@ -1,3 +1,4 @@
+const ObjectId = require('mongoose').Types.ObjectId;
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
@@ -15,7 +16,7 @@ module.exports = (options = {}) => {
       // Get the user based on their id, pass the `params` along so
       // that we get a safe version of the user data
       
-      const user = await app.service('users').get(message.user, params);
+      const user = await app.service('users').get(ObjectId(message.user), params);
   
       // Merge the message content to include the `user` object
       return {
@@ -28,6 +29,7 @@ module.exports = (options = {}) => {
     // In a find method we need to process the entire page
     if (method === 'find') {
       // Map all data to include the `user` information
+      
       context.result.data = await Promise.all(result.data.map(addUser));
     } else {
       // Otherwise just update the single result

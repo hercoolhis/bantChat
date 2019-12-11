@@ -8,7 +8,8 @@ module.exports = function (app) {
   const { Schema } = mongooseClient;
   const message = new Schema({
     text: { type: String, required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
+    recipient: { type: String, default: 'general' }
   }, {
     timestamps: true
   });

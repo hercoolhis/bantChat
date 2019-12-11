@@ -21,20 +21,38 @@ const showChat = async () => {
       $limit: 25
     }
   });
+
+  
     
   // We want to show the newest message last
   messages.data.reverse().forEach(addMessage);
-  
-  // Find all users
-  const users = await client.service('users').find();
+
   let user = localStorage.getItem('user'),
     email = localStorage.getItem('user-email'),
     avatar = localStorage.getItem('avatar');
+  
+  // Find all users
+  const users = await client.service('users').find({
+    query: {
+      email: {
+        $nin: [ email ]
+      }
+    }
+  });
+
 
   document.getElementById('current-user').innerHTML = `${user}`;
   document.getElementById('current-user-email').innerHTML = `${email}`;
   document.getElementById('profile-img').src = avatar;
-  //document.getElementById('current-user').innerHTML = `${user}`;
+  
+  
+
+  //   var index = array.indexOf(5);
+  // if (index > -1) {
+  //   array.splice(index, 1);
+  // }
+
+
 
 
   // Add each user to the list
@@ -87,6 +105,7 @@ const login = async credentials => {
       localStorage.setItem('user', user.username);
       localStorage.setItem('user-email', user.email);
       localStorage.setItem('avatar', user.avatar);
+      localStorage.setItem('user-id', user._id);
       
     }
 
@@ -123,6 +142,8 @@ addEventListener('#login', 'click', loginFunction);
 addEventListener('#logout', 'click', logOutFunction);
 // "Send" message form submission handler
 addEventListener('#send-message', 'submit', sendMessage);
+
+
 
 //view events
 addEventListener('#showSignUp', 'click', showSignUp);

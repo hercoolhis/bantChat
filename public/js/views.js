@@ -104,7 +104,7 @@ const chatHTML2 = `
 <div id="sidepanel">
     <div id="profile">
         <div class="wrap">
-            <img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt="" />
+            <img id="profile-img" src="" class="online" alt="" />
             <p id="current-user"></p>
             <p id="current-user-email"></p>
             
@@ -145,14 +145,11 @@ const chatHTML2 = `
 <div class="content">
     <div class="contact-profile">
         
+        <p id="chat-name" style="margin-left: 40%;
+        margin-top: 20px;">General</p>
         
-        <div class="social-media">
-            <i class="fa fa-facebook" aria-hidden="true"></i>
-            <i class="fa fa-twitter" aria-hidden="true"></i>
-             <i class="fa fa-instagram" aria-hidden="true"></i>
-        </div>
     </div>
-    <div class="messages">
+    <div id="messages" class="messages">
         <ul class="chat">
                      
         </ul>
@@ -170,13 +167,34 @@ const chatHTML2 = `
 </div>
 `;
 
+const newChat = `<div class="contact-profile">
+        
+<p style="margin-left: 40%;
+margin-top: 20px;">All Users Group</p>
+
+</div>
+<div class="messages">
+
+             
+</ul>
+</div>
+<div class="message-input">
+<div class="wrap">
+<form class="flex flex-row flex-space-between" id="send-message">
+<input type="text" name="text" placeholder="Write your message..." />
+
+<button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+</form>
+</div>
+</div>`;
+
 const addUser = user => {
   const userList = document.querySelector('.user-list');
   
   if(userList) {
     // Add the user to the list
     userList.innerHTML += `<li class="contact">
-      <div class="wrap">
+      <div onclick="showUserChat('${user.email}', '${user._id}')" class="wrap" id="single-user">
           <span class="contact-status online"></span>
           <img src="${user.avatar}" alt="" />
           <div class="meta">
@@ -191,7 +209,7 @@ const addUser = user => {
 // Renders a message to the page
 const addMessage = message => {
   // The user that sent this message (added by the populate-user hook)
-    
+  
   const { user = {} } = message;
   const chat = document.querySelector('.chat');
   // Escape HTML to prevent XSS attacks
@@ -200,7 +218,15 @@ const addMessage = message => {
     .replace(/</g, '&lt;').replace(/>/g, '&gt;');
   
   if(chat) {
-    chat.innerHTML += `<li class="sent">
+    let classToUse;
+
+    if (message.type === 'recipient') {
+      classToUse = 'sent';
+    } else {
+      classToUse = 'replies';
+    }
+
+    chat.innerHTML += `<li class="${ classToUse }">
       <img src="${user.avatar}" alt="" />
       <p>${text} <small><small><small>${moment(message.createdAt).format('MMM Do, hh:mm')}</small></small></small></p>
   </li> `;

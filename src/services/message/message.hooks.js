@@ -16,13 +16,13 @@ module.exports = {
   },
 
   after: {
-    all: [attachUserToMessage()],
+    all: [],
     find: [],
-    get: [],
-    create: [],
-    update: [],
-    patch: [],
-    remove: []
+    get: [attachUserToMessage()],
+    create: [attachUserToMessage()],
+    update: [attachUserToMessage()],
+    patch: [attachUserToMessage()],
+    remove: [attachUserToMessage()]
   },
 
   error: {
