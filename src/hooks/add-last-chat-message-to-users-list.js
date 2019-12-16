@@ -28,8 +28,6 @@ module.exports = (options = {}) => {
       });
 
       let last_message = chatMessages.data[0] ? chatMessages.data[0].text : '...';
-
-      
       
       return {
         ...user,

@@ -3,6 +3,8 @@
 
 // Show the login page
 const showLogin = (error) => {
+ 
+
   if(document.querySelectorAll('.login').length && error) {
     document.querySelector('.heading').insertAdjacentHTML('beforeend', `<p>There was an error: ${error.message}</p>`);
   } else {
@@ -22,9 +24,6 @@ const showChat = async () => {
       recipient: 'general'
     }
   });
-
-  
-    
   // We want to show the newest message last
   messages.data.reverse().forEach(addMessage);
 
@@ -33,7 +32,7 @@ const showChat = async () => {
     avatar = localStorage.getItem('avatar');
   
   // Find all users
-  const users = await client.service('users').find({
+  let users = await client.service('users').find({
     query: {
       email: {
         $nin: [ email ]
@@ -42,23 +41,44 @@ const showChat = async () => {
   });
 
 
+  const addLastMessageToChat = async user => {
+
+    const chatMessages = await client.service('message').find({
+      query: { 
+        $sort: { createdAt: -1 },
+        $limit: 1,                
+        $or: [
+          { 
+            recipient: localStorage.getItem('user-email'),       
+            user_id: user._id                     
+          },
+          { 
+            user_id: localStorage.getItem('user-id'),
+            recipient: user.email
+          }
+        ]          
+      }
+    });
+
+    let last_message = chatMessages.data[0] ? chatMessages.data[0].text : '...';
+    
+    return {
+      ...user,
+      text : last_message
+    };
+
+  };
+
+  const newUsers = await Promise.all(users.data.map(addLastMessageToChat));
+
+
   document.getElementById('current-user').innerHTML = `${user}`;
   document.getElementById('current-user-email').innerHTML = `${email}`;
   document.getElementById('profile-img').src = avatar;
-  
-  
-
-  //   var index = array.indexOf(5);
-  // if (index > -1) {
-  //   array.splice(index, 1);
-  // }
-
-
-
 
   // Add each user to the list
-  users.data.forEach(addUser);
-  //window.location = 'http://localhost:4200/chat.html';
+  newUsers.forEach(addUser);
+  
 };
 
 // Retrieve email/password object from the login/signup page
@@ -113,6 +133,7 @@ const login = async credentials => {
     
     showChat();
   } catch(error) {
+    console.log(error);
     // If we got an error, show the login page
     showLogin(error);
   }
@@ -152,7 +173,7 @@ addEventListener('#showLogin', 'click', showLogIn);
 
   
 // Listen to created events and add the new message in real-time
-client.service('message').on('created', addNewMessage);
+client.service('message').on('created', addMessage);
   
 // We will also see when new users get created in real-time
 client.service('users').on('created', addUser);

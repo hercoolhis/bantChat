@@ -23,7 +23,7 @@ module.exports = {
       // Always must be the last hook
       protect('password')
     ],
-    find: [addLastChatMessageToUsersList()],
+    find: [],
     get: [],
     create: [],
     update: [],
