@@ -1,4 +1,4 @@
-const ObjectId = require('mongoose').Types.ObjectId;
+
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
@@ -15,14 +15,12 @@ module.exports = (options = {}) => {
     const addUser = async message => {
       // Get the user based on their id, pass the `params` along so
       // that we get a safe version of the user data
-      
-      const user = await app.service('users').get(ObjectId(message.user), params);
+     
+      //const user = await app.service('users').get(ObjectId(message.user), params);
   
       // Merge the message content to include the `user` object
       return {
-        ...message,
-        
-        user
+        ...message
       };
     };
 
@@ -35,6 +33,7 @@ module.exports = (options = {}) => {
       // Otherwise just update the single result
       context.result = await addUser(data);
     }
+
     return context;
   };
 };

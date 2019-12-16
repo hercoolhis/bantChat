@@ -25,12 +25,16 @@ const logOutFunction = async () => {
 
 const sendMessage = async (ev) => {
   const input = document.querySelector('[name="text"]');
+  const recipient = document.querySelector('[name="recipient"]').value || 'general';
+
+  
 
   ev.preventDefault();
     
   // Create a new message and then clear the input field
   await client.service('message').create({
-    text: input.value    
+    text: input.value,
+    recipient   
   });
     
   input.value = '';
@@ -57,32 +61,42 @@ const showUserChat = async (userEmail, userId) => {
     }
   });
 
+  
+
   const partnerUserName = chatUserName.data[0].username;
 
-  const recipientMessages = await client.service('message').find({
-      query: {   
-        recipient: localStorage.getItem('user-email'),       
-        user: userId   
-      }
-    }),
-    sentMessages = await client.service('message').find({
-      query: {          
-        user: localStorage.getItem('user-id'),
-        recipient: userEmail
-      }
-    });
-
-  recipientMessages.data.forEach((message) => {
-    message.type = 'recipient';
+  const privateMessages = await client.service('message').find({
+    query: { 
+      $sort: { createdAt: -1 },
+      $limit: 25,      
+      $or: [
+        { 
+          recipient: localStorage.getItem('user-email'),       
+          user_id: userId                     
+        },
+        { 
+          user_id: localStorage.getItem('user-id'),
+          recipient: userEmail
+        }
+      ]          
+    }
   });
+   
 
-  const allMessages = recipientMessages.data.concat(sentMessages.data);
-
+  privateMessages.data.forEach((message) => {
+    if (message.user === userId) {
+      message.type = 'recipient';
+    }
+  });
   
   // We want to show the newest message last
-  allMessages.reverse().forEach(addMessage);
+  privateMessages.data.reverse().forEach(addMessage);
 
   document.getElementById('chat-name').innerHTML = `${ partnerUserName }`;
+  let messageRecipient = document.querySelector('[name="recipient"]');
+  messageRecipient.value = userEmail;
+
+  
   
 };
 

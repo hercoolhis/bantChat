@@ -158,6 +158,7 @@ const chatHTML2 = `
         <div class="wrap">
         <form class="flex flex-row flex-space-between" id="send-message">
         <input type="text" name="text" placeholder="Write your message..." />
+        <input type="hidden" name="recipient" />
        
         <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
         </form>
@@ -166,27 +167,6 @@ const chatHTML2 = `
 </div>
 </div>
 `;
-
-const newChat = `<div class="contact-profile">
-        
-<p style="margin-left: 40%;
-margin-top: 20px;">All Users Group</p>
-
-</div>
-<div class="messages">
-
-             
-</ul>
-</div>
-<div class="message-input">
-<div class="wrap">
-<form class="flex flex-row flex-space-between" id="send-message">
-<input type="text" name="text" placeholder="Write your message..." />
-
-<button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-</form>
-</div>
-</div>`;
 
 const addUser = user => {
   const userList = document.querySelector('.user-list');
@@ -199,7 +179,7 @@ const addUser = user => {
           <img src="${user.avatar}" alt="" />
           <div class="meta">
               <p class="name">${user.username}</p>
-              <p class="preview">You just got LITT up, Mike.</p>
+              <p class="preview">${user.text}</p>
           </div>
       </div>
   </li>`;
@@ -208,9 +188,8 @@ const addUser = user => {
 
 // Renders a message to the page
 const addMessage = message => {
-  // The user that sent this message (added by the populate-user hook)
+  // The user that sent this message (added by the populate-user hook)  
   
-  const { user = {} } = message;
   const chat = document.querySelector('.chat');
   // Escape HTML to prevent XSS attacks
   const text = message.text
@@ -219,21 +198,62 @@ const addMessage = message => {
   
   if(chat) {
     let classToUse;
-
-    if (message.type === 'recipient') {
+    
+    if (message.type === 'recipient' || message.user_id !== localStorage.getItem('user-id')) {
       classToUse = 'sent';
     } else {
       classToUse = 'replies';
     }
-
+    
     chat.innerHTML += `<li class="${ classToUse }">
-      <img src="${user.avatar}" alt="" />
-      <p>${text} <small><small><small>${moment(message.createdAt).format('MMM Do, hh:mm')}</small></small></small></p>
-  </li> `;
-  
+          <img src="${message.user_avatar}" alt="" />
+          <p>${text} <small><small><small>${moment(message.createdAt).format('MMM Do, hh:mm')}</small></small></small></p>
+      </li> `;
+      
     // Always scroll to the bottom of our message list
     chat.scrollTop = chat.scrollHeight - chat.clientHeight;
   }
+  
+  
+};
+
+
+const addNewMessage = message => {
+  // The user that sent this message (added by the populate-user hook)  
+    
+  const chat = document.querySelector('.chat');
+  // Escape HTML to prevent XSS attacks
+  const text = message.text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    
+  let recipientValue = document.querySelector('[name="recipient"]').value;
+
+  console.log(recipientValue, message.recipient);
+    
+  if (recipientValue == message.recipient) {
+    if(chat) {
+      let classToUse;
+      
+      if (message.type === 'recipient' || message.user_id !== localStorage.getItem('user-id')) {
+        classToUse = 'sent';
+      } else {
+        classToUse = 'replies';
+      }
+      
+      chat.innerHTML += `<li class="${ classToUse }">
+            <img src="${message.user_avatar}" alt="" />
+            <p>${text} <small><small><small>${moment(message.createdAt).format('MMM Do, hh:mm')}</small></small></small></p>
+        </li> `;
+        
+      // Always scroll to the bottom of our message list
+      chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+    }
+  } else {
+    //send notification
+    console.log('not on page');
+  }
+    
 };
 
 

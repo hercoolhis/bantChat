@@ -18,7 +18,8 @@ const showChat = async () => {
   const messages = await client.service('message').find({
     query: {
       $sort: { createdAt: -1 },
-      $limit: 25
+      $limit: 25,
+      recipient: 'general'
     }
   });
 
@@ -151,7 +152,7 @@ addEventListener('#showLogin', 'click', showLogIn);
 
   
 // Listen to created events and add the new message in real-time
-client.service('message').on('created', addMessage);
+client.service('message').on('created', addNewMessage);
   
 // We will also see when new users get created in real-time
 client.service('users').on('created', addUser);
