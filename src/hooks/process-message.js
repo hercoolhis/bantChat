@@ -5,7 +5,7 @@
 module.exports = (options = {}) => {
   return async context => {
     const { data } = context;
-    
+
     // Throw an error if we didn't get a text
     if(!data.text) {
       throw new Error('A message must have a text');
@@ -21,12 +21,14 @@ module.exports = (options = {}) => {
     context.data = {
       text,
 
+
       recipient: data.recipient,
       // Set the user id
       user_id: user._id,
       user_username: user.username,
       user_email: user.email,
       user_avatar: user.avatar,
+
       // Add the current date
       createdAt: new Date().getTime()
     };

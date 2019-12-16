@@ -1,23 +1,30 @@
+
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
+
 
 // Show the login page
 const showLogin = (error) => {
   if(document.querySelectorAll('.login').length && error) {
     document.querySelector('.heading').insertAdjacentHTML('beforeend', `<p>There was an error: ${error.message}</p>`);
   } else {
+
     showLogIn();
+
   }
 };
   
 // Shows the chat page
+
 const showChat = async () => {  
+
   document.body.innerHTML = chatHTML2;
   
   // Find the latest 25 messages. They will come with the newest first
   const messages = await client.service('message').find({
     query: {
       $sort: { createdAt: -1 },
+
       $limit: 25,
       recipient: 'general'
     }
@@ -42,9 +49,11 @@ const showChat = async () => {
   });
 
 
+
   document.getElementById('current-user').innerHTML = `${user}`;
   document.getElementById('current-user-email').innerHTML = `${email}`;
   document.getElementById('profile-img').src = avatar;
+
   
   
 
@@ -52,6 +61,7 @@ const showChat = async () => {
   // if (index > -1) {
   //   array.splice(index, 1);
   // }
+
 
 
 
@@ -106,7 +116,9 @@ const login = async credentials => {
       localStorage.setItem('user', user.username);
       localStorage.setItem('user-email', user.email);
       localStorage.setItem('avatar', user.avatar);
+
       localStorage.setItem('user-id', user._id);
+
       
     }
 
@@ -125,7 +137,9 @@ const login = async credentials => {
 
 
 
+
 //Listeners and Functions
+
 const addEventListener = (selector, event, handler) => {
   document.addEventListener(event, async ev => {
     if (ev.target.closest(selector)) {
@@ -133,6 +147,7 @@ const addEventListener = (selector, event, handler) => {
     }
   });
 };
+
  
 
 // "Signup and login" button click handler
@@ -156,7 +171,6 @@ client.service('message').on('created', addNewMessage);
   
 // We will also see when new users get created in real-time
 client.service('users').on('created', addUser);
-
 
 
 
