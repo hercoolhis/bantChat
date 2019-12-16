@@ -4,6 +4,8 @@ const {
   hashPassword, protect
 } = require('@feathersjs/authentication-local').hooks;
 
+const addLastChatMessageToUsersList = require('../../hooks/add-last-chat-message-to-users-list');
+
 module.exports = {
   before: {
     all: [],
@@ -21,7 +23,7 @@ module.exports = {
       // Always must be the last hook
       protect('password')
     ],
-    find: [],
+    find: [addLastChatMessageToUsersList()],
     get: [],
     create: [],
     update: [],

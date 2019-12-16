@@ -20,8 +20,15 @@ module.exports = (options = {}) => {
     // Update the original data (so that people can't submit additional stuff)
     context.data = {
       text,
+
+
+      recipient: data.recipient,
       // Set the user id
-      user: user._id,
+      user_id: user._id,
+      user_username: user.username,
+      user_email: user.email,
+      user_avatar: user.avatar,
+
       // Add the current date
       createdAt: new Date().getTime()
     };

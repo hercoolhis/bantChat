@@ -7,8 +7,14 @@ module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const message = new Schema({
-    text: { type: String, required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }
+
+    text: { type: String, required: true },    
+    user_id: { type: mongoose.Schema.Types.ObjectId , required: true },
+    user_username: { type: String },
+    user_email: { type: String },
+    user_avatar: { type: String },
+    recipient: { type: String }
+
   }, {
     timestamps: true
   });
