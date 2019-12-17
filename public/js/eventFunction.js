@@ -51,36 +51,35 @@ const showLogIn = () => {
 const showUserChat = async (userEmail, userId) => {
 
   document.getElementsByClassName('chat')[0].innerHTML = '';  
+  document.getElementsByClassName(`${userEmail}`)[0].innerHTML = '';
   
   const chatUserName = await client.service('users').find({
-    query: {
-      email: {
-        $in: [ userEmail ]
-      },
-      $select: [ 'username' ]
-    }
-  });
-
-  
-
-  const partnerUserName = chatUserName.data[0].username;
-
-  const privateMessages = await client.service('message').find({
-    query: { 
-      $sort: { createdAt: -1 },
-      $limit: 25,      
-      $or: [
-        { 
-          recipient: localStorage.getItem('user-email'),       
-          user_id: userId                     
+      query: {
+        email: {
+          $in: [ userEmail ]
         },
-        { 
-          user_id: localStorage.getItem('user-id'),
-          recipient: userEmail
-        }
-      ]          
-    }
-  });
+        $select: [ 'username' ]
+      }
+    }),
+
+    partnerUserName = chatUserName.data[0].username,
+
+    privateMessages = await client.service('message').find({
+      query: { 
+        $sort: { createdAt: -1 },
+        $limit: 25,      
+        $or: [
+          { 
+            recipient: localStorage.getItem('user-email'),       
+            user_id: userId                     
+          },
+          { 
+            user_id: localStorage.getItem('user-id'),
+            recipient: userEmail
+          }
+        ]          
+      }
+    });
    
 
   privateMessages.data.forEach((message) => {
@@ -95,8 +94,6 @@ const showUserChat = async (userEmail, userId) => {
   document.getElementById('chat-name').innerHTML = `${ partnerUserName }`;
   let messageRecipient = document.querySelector('[name="recipient"]');
   messageRecipient.value = userEmail;
-
-  
   
 };
 

@@ -11,7 +11,7 @@ module.exports = (options = {}) => {
     
     const { data, app, method, result, params } = context;
     // Update the original data (so that people can't submit additional stuff)
-    console.log(params.user); 
+    
     const addUser = async message => {
       // Get the user based on their id, pass the `params` along so
       // that we get a safe version of the user data

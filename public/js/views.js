@@ -175,11 +175,11 @@ const addUser = user => {
   if(userList) {
     // Add the user to the list
     userList.innerHTML += `<li class="contact">
-      <div onclick="showUserChat('${user.email}', '${user._id}')" class="wrap" id="single-user">
-          <span class="contact-status online"></span>
+      <div onclick="showUserChat('${user.email}', '${user._id}')" class="wrap " id="single-user">
+          <span class="contact-status online ${user.email}"></span>
           <img src="${user.avatar}" alt="" />
           <div class="meta">
-              <p class="name">${user.username}</p>
+              <p class="name">${user.username}</p> 
               <p class="preview">${user.text}</p>
           </div>
       </div>
@@ -229,9 +229,7 @@ const addNewMessage = message => {
     .replace(/</g, '&lt;').replace(/>/g, '&gt;');
     
   let recipientValue = document.querySelector('[name="recipient"]').value;
-
-  console.log(recipientValue, message.recipient);
-    
+  
   if (recipientValue == message.recipient) {
     if(chat) {
       let classToUse;
@@ -251,9 +249,11 @@ const addNewMessage = message => {
       chat.scrollTop = chat.scrollHeight - chat.clientHeight;
     }
   } else {
-    //send notification
-    console.log('not on page');
+    //show notification   
+    document.getElementsByClassName(`${message.user_email}`)[0].innerHTML = '<i class="fa fa-envelope" aria-hidden="true"></i>';
   }
+
+ 
     
 };
 

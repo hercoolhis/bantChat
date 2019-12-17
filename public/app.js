@@ -140,12 +140,6 @@ const login = async credentials => {
 };
 
 
-
-
-
-
-
-
 //Listeners and Functions
 const addEventListener = (selector, event, handler) => {
   document.addEventListener(event, async ev => {
@@ -173,7 +167,7 @@ addEventListener('#showLogin', 'click', showLogIn);
 
   
 // Listen to created events and add the new message in real-time
-client.service('message').on('created', addMessage);
+client.service('message').on('created', addNewMessage);
   
 // We will also see when new users get created in real-time
 client.service('users').on('created', addUser);
