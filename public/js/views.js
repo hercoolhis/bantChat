@@ -100,7 +100,6 @@ const signUpHTML = `<div class="limiter">
 </div>`;
 
 const chatHTML2 = `
-
 <div id="frame">
 <div id="sidepanel">
     <div id="profile">
@@ -175,7 +174,7 @@ const addUser = user => {
   if(userList) {
     // Add the user to the list
     userList.innerHTML += `<li class="contact">
-      <div onclick="showUserChat('${user.email}', '${user._id}')" class="wrap " id="single-user">
+      <div onclick="showUserChat('${user.email}', '${user._id}', '${user.unreadMessages}')" class="wrap " id="single-user">
           <span class="contact-status online ${user.email}"></span>
           <img src="${user.avatar}" alt="" />
           <div class="meta">
@@ -184,6 +183,11 @@ const addUser = user => {
           </div>
       </div>
   </li>`;
+
+  }
+
+  if (user.unreadMessages === true) {
+    document.getElementsByClassName(`${user.email}`)[0].innerHTML = '<i class="fa fa-envelope" aria-hidden="true"></i>';
   }
 };
 
@@ -215,7 +219,6 @@ const addMessage = message => {
     chat.scrollTop = chat.scrollHeight - chat.clientHeight;
   }
   
-  
 };
 
 
@@ -230,7 +233,8 @@ const addNewMessage = message => {
     
   let recipientValue = document.querySelector('[name="recipient"]').value;
   
-  if (recipientValue == message.recipient) {
+  
+  if ((recipientValue == message.recipient) || (recipientValue ==  message.user_email)) {
     if(chat) {
       let classToUse;
       
@@ -252,8 +256,6 @@ const addNewMessage = message => {
     //show notification   
     document.getElementsByClassName(`${message.user_email}`)[0].innerHTML = '<i class="fa fa-envelope" aria-hidden="true"></i>';
   }
-
- 
     
 };
 

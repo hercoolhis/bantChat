@@ -27,8 +27,6 @@ const sendMessage = async (ev) => {
   const input = document.querySelector('[name="text"]');
   const recipient = document.querySelector('[name="recipient"]').value || 'general';
 
-  
-
   ev.preventDefault();
     
   // Create a new message and then clear the input field
@@ -48,7 +46,7 @@ const showLogIn = () => {
   document.body.innerHTML = loginHTML;
 };
 
-const showUserChat = async (userEmail, userId) => {
+const showUserChat = async (userEmail, userId, unreadMessages) => {
 
   document.getElementsByClassName('chat')[0].innerHTML = '';  
   document.getElementsByClassName(`${userEmail}`)[0].innerHTML = '';
@@ -94,6 +92,22 @@ const showUserChat = async (userEmail, userId) => {
   document.getElementById('chat-name').innerHTML = `${ partnerUserName }`;
   let messageRecipient = document.querySelector('[name="recipient"]');
   messageRecipient.value = userEmail;
+   
+  if (unreadMessages) {
+    await client.service('message').patch(
+      null,
+      { read: true },
+      { 
+        query: {
+          recipient: localStorage.getItem('user-email'),       
+          user_id: userId,
+          read: false
+        }        
+      });
+  }
+  //find all unread messages
+  //update each as read
+  
   
 };
 

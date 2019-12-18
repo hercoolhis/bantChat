@@ -6,7 +6,8 @@ const hooks = require('./message.hooks');
 module.exports = function (app) {
   const options = {
     Model: createModel(app),
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
+    multi: true
   };
 
   // Initialize our service with any options it requires
@@ -14,6 +15,6 @@ module.exports = function (app) {
 
   // Get our initialized service so that we can register hooks
   const service = app.service('message');
-
+  
   service.hooks(hooks);
 };

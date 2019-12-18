@@ -12,7 +12,8 @@ module.exports = function (app) {
     user_username: { type: String },
     user_email: { type: String },
     user_avatar: { type: String },
-    recipient: { type: String }
+    recipient: { type: String },
+    read: { type: Boolean, default: true }
   }, {
     timestamps: true
   });

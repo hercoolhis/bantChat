@@ -40,7 +40,6 @@ const showChat = async () => {
     }
   });
 
-
   const addLastMessageToChat = async user => {
 
     const chatMessages = await client.service('message').find({
@@ -69,7 +68,29 @@ const showChat = async () => {
 
   };
 
-  const newUsers = await Promise.all(users.data.map(addLastMessageToChat));
+  const checkForUnreadMessagesAndAddMessageIcon = async user => {
+
+    const unReadMessagesFromThisUser = await client.service('message').find({
+      query: { 
+        $sort: { createdAt: -1 },
+        $limit: 25,                
+        recipient: localStorage.getItem('user-email'),       
+        user_id: user._id,
+        read: false        
+      }
+    });
+
+    let unreadMessages = unReadMessagesFromThisUser.data.length > 0 ? true : false;
+    
+    return {
+      ...user,
+      unreadMessages
+    };
+
+  };
+
+  const usersWithAddedLastMessages = await Promise.all(users.data.map(addLastMessageToChat)),
+    usersWithUnreadMessagesChecked = await Promise.all(usersWithAddedLastMessages.map(checkForUnreadMessagesAndAddMessageIcon));
 
 
   document.getElementById('current-user').innerHTML = `${user}`;
@@ -77,7 +98,7 @@ const showChat = async () => {
   document.getElementById('profile-img').src = avatar;
 
   // Add each user to the list
-  newUsers.forEach(addUser);
+  usersWithUnreadMessagesChecked.forEach(addUser);
   
 };
 
