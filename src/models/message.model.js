@@ -13,7 +13,7 @@ module.exports = function (app) {
     user_email: { type: String },
     user_avatar: { type: String },
     recipient: { type: String },
-    read: { type: Boolean, default: true }
+    read: { type: Boolean, default: false }
   }, {
     timestamps: true
   });

@@ -108,7 +108,6 @@ const showUserChat = async (userEmail, userId, unreadMessages) => {
   //find all unread messages
   //update each as read
   
-  
 };
 
 

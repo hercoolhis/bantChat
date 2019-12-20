@@ -180,8 +180,6 @@ addEventListener('#logout', 'click', logOutFunction);
 // "Send" message form submission handler
 addEventListener('#send-message', 'submit', sendMessage);
 
-
-
 //view events
 addEventListener('#showSignUp', 'click', showSignUp);
 addEventListener('#showLogin', 'click', showLogIn);

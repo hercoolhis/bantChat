@@ -179,7 +179,7 @@ const addUser = user => {
           <img src="${user.avatar}" alt="" />
           <div class="meta">
               <p class="name">${user.username}</p> 
-              <p class="preview">${user.text}</p>
+              <p class="preview" id="${user.email}">${user.text}</p>
           </div>
       </div>
   </li>`;
@@ -224,7 +224,7 @@ const addMessage = message => {
 
 const addNewMessage = message => {
   // The user that sent this message (added by the populate-user hook)  
-    
+   
   const chat = document.querySelector('.chat');
   // Escape HTML to prevent XSS attacks
   const text = message.text
@@ -251,12 +251,36 @@ const addNewMessage = message => {
         
       // Always scroll to the bottom of our message list
       chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+
+      const markMessageAsRead = async (message) => {
+        await client.service('message').patch(
+          null,
+          { read: true },
+          { 
+            query: {
+              recipient: localStorage.getItem('user-email'),       
+              user_id: message.user_id,
+              read: false
+            }        
+          });
+      };
+
+      //wait 7 seconds and mark message as read 
+      setTimeout(function(){ markMessageAsRead(message); }, 3000);
     }
   } else {
     //show notification   
     document.getElementsByClassName(`${message.user_email}`)[0].innerHTML = '<i class="fa fa-envelope" aria-hidden="true"></i>';
   }
-    
+
+  //update last message for chat
+  
+  if (message.user_id == localStorage.getItem('user-id')) {
+    document.getElementById(`${message.recipient}`).innerHTML = `${message.text}`;
+  } else {
+    document.getElementById(`${message.user_email}`).innerHTML = `${message.text}`;
+  }
+ 
 };
 
 
