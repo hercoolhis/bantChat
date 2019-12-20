@@ -146,6 +146,7 @@ const login = async credentials => {
       localStorage.setItem('user-id', user._id);
       
     }
+    
 
     showChat();
   } catch(error) {   

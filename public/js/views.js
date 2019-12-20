@@ -38,7 +38,6 @@ const loginHTML = `<div class="limiter">
                 <span class="txt1">
                     Don’t have an account?
                 </span>
-
                 <a id="showSignUp" class="txt2" href="#">
                     Sign Up
                 </a>
@@ -151,7 +150,7 @@ const chatHTML2 = `
     </div>
     <div id="messages" class="messages">
         <ul class="chat">
-                     
+        
         </ul>
     </div>
     <div class="message-input">
@@ -166,6 +165,10 @@ const chatHTML2 = `
     </div>
 </div>
 </div>
+
+<audio id="notifySound">
+      <source src="sound/just-saying.mp3" type="audio/mpeg">          
+    </audio>
 `;
 
 const addUser = user => {
@@ -278,6 +281,12 @@ const addNewMessage = message => {
   } else {
     document.getElementById(`${message.user_email}`).innerHTML = `${message.text}`;
   }
+
+  if (message.recipient == localStorage.getItem('user-email')) {
+    var x = document.getElementById('notifySound');  
+    x.play();
+  }
+  
  
 };
 
