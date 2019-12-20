@@ -5,7 +5,6 @@ const {
 } = require('@feathersjs/authentication-local').hooks;
 
 
-
 module.exports = {
   before: {
     all: [],

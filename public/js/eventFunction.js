@@ -18,7 +18,6 @@ const loginFunction = async () => {
 
 const logOutFunction = async () => {
   await client.logout();
-
   document.body.innerHTML = loginHTML;
 };
 

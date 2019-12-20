@@ -615,7 +615,13 @@ body {
     font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
     float: left;
     border: none;
+<<<<<<< HEAD
     width: calc(100% - 0px);
+=======
+
+    width: calc(100% - 0px);
+
+>>>>>>> 1c57ebb9255fa17ed15d6ef1e76473b74dd9a7d6
     padding: 11px 32px 10px 8px;
     font-size: 0.8em;
     color: #32465a;

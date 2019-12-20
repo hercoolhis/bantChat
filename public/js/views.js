@@ -222,6 +222,7 @@ const addMessage = message => {
     chat.scrollTop = chat.scrollHeight - chat.clientHeight;
   }
   
+
 };
 
 

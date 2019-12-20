@@ -193,7 +193,6 @@ client.service('users').on('created', addUser);
 
 
 
-
   
 // Call login right away so we can show the chat window
 // If the user can already be authenticated
