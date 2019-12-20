@@ -231,10 +231,9 @@ const addNewMessage = message => {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;').replace(/>/g, '&gt;');
     
-  let recipientValue = document.querySelector('[name="recipient"]').value;
+  let recipientValue = document.querySelector('[name="recipient"]').value;  
   
-  
-  if ((recipientValue == message.recipient) || (recipientValue ==  message.user_email)) {
+  if (((recipientValue == message.recipient) || (recipientValue ==  message.user_email)) && ((localStorage.getItem('user-email') == message.recipient) || (localStorage.getItem('user-email') == message.user_email))) {
     if(chat) {
       let classToUse;
       
@@ -264,7 +263,6 @@ const addNewMessage = message => {
             }        
           });
       };
-
       //wait 7 seconds and mark message as read 
       setTimeout(function(){ markMessageAsRead(message); }, 3000);
     }

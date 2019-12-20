@@ -3,14 +3,12 @@
 /* eslint-disable no-undef */
 const signUpFunction = async () => {  
   // For signup, create a new user and then log them in
-  const credentials = getCredentials('signUp');
-        
+  const credentials = getCredentials('signUp');        
   // First create the user
   await client.service('users').create(credentials);
   // If successful log them in
   await login(credentials);
 };
-
 
 const loginFunction = async () => {
   const user = getCredentials('logIn');
@@ -20,15 +18,15 @@ const loginFunction = async () => {
 
 const logOutFunction = async () => {
   await client.logout();
+
   document.body.innerHTML = loginHTML;
 };
 
 const sendMessage = async (ev) => {
-  const input = document.querySelector('[name="text"]');
-  const recipient = document.querySelector('[name="recipient"]').value || 'general';
+  const input = document.querySelector('[name="text"]'),
+    recipient = document.querySelector('[name="recipient"]').value || 'general';
 
-  ev.preventDefault();
-    
+  ev.preventDefault();    
   // Create a new message and then clear the input field
   await client.service('message').create({
     text: input.value,

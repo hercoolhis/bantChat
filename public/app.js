@@ -3,8 +3,6 @@
 
 // Show the login page
 const showLogin = (error) => {
- 
-
   if(document.querySelectorAll('.login').length && error) {
     document.querySelector('.heading').insertAdjacentHTML('beforeend', `<p>There was an error: ${error.message}</p>`);
   } else {
@@ -14,8 +12,7 @@ const showLogin = (error) => {
   
 // Shows the chat page
 const showChat = async () => {  
-  document.body.innerHTML = chatHTML2;
-  
+  document.body.innerHTML = chatHTML2;  
   // Find the latest 25 messages. They will come with the newest first
   const messages = await client.service('message').find({
     query: {
@@ -29,16 +26,15 @@ const showChat = async () => {
 
   let user = localStorage.getItem('user'),
     email = localStorage.getItem('user-email'),
-    avatar = localStorage.getItem('avatar');
-  
-  // Find all users
-  let users = await client.service('users').find({
-    query: {
-      email: {
-        $nin: [ email ]
+    avatar = localStorage.getItem('avatar'),  
+    // Find all users
+    users = await client.service('users').find({
+      query: {
+        email: {
+          $nin: [ email ]
+        }
       }
-    }
-  });
+    });
 
   const addLastMessageToChat = async user => {
 
@@ -151,10 +147,8 @@ const login = async credentials => {
       
     }
 
-    
     showChat();
-  } catch(error) {
-    console.log(error);
+  } catch(error) {   
     // If we got an error, show the login page
     showLogin(error);
   }
