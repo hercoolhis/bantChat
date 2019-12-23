@@ -6,10 +6,14 @@ module.exports = (options = {}) => {
   return async context => {
     const { data } = context;
 <<<<<<< HEAD
+<<<<<<< HEAD
     
 =======
 
 >>>>>>> 1c57ebb9255fa17ed15d6ef1e76473b74dd9a7d6
+=======
+
+>>>>>>> c540656a83e4ca9c91b8a369377f8d9d42ea2dd1
     // Throw an error if we didn't get a text
     if(!data.text) {
       throw new Error('A message must have a text');
@@ -24,6 +28,10 @@ module.exports = (options = {}) => {
     // Update the original data (so that people can't submit additional stuff)
     context.data = {
       text,
+<<<<<<< HEAD
+=======
+
+>>>>>>> c540656a83e4ca9c91b8a369377f8d9d42ea2dd1
 
 <<<<<<< HEAD
 =======
@@ -36,9 +44,13 @@ module.exports = (options = {}) => {
       user_email: user.email,
       user_avatar: user.avatar,
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 1c57ebb9255fa17ed15d6ef1e76473b74dd9a7d6
+=======
+
+>>>>>>> c540656a83e4ca9c91b8a369377f8d9d42ea2dd1
       // Add the current date
       createdAt: new Date().getTime()
     };
