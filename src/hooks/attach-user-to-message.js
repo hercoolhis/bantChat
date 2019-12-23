@@ -11,50 +11,27 @@ module.exports = (options = {}) => {
     
     const { data, app, method, result, params } = context;
     // Update the original data (so that people can't submit additional stuff)
-<<<<<<< HEAD
-    
-    const addUser = async message => {
-      // Get the user based on their id, pass the `params` along so
-      // that we get a safe version of the user data
-=======
+
 
     const addUser = async message => {
       // Get the user based on their id, pass the `params` along so
       // that we get a safe version of the user data
 
-<<<<<<< HEAD
->>>>>>> 1c57ebb9255fa17ed15d6ef1e76473b74dd9a7d6
-=======
->>>>>>> c540656a83e4ca9c91b8a369377f8d9d42ea2dd1
+
      
       //const user = await app.service('users').get(ObjectId(message.user), params);
   
       // Merge the message content to include the `user` object
       return {
         ...message
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> 1c57ebb9255fa17ed15d6ef1e76473b74dd9a7d6
-=======
-
->>>>>>> c540656a83e4ca9c91b8a369377f8d9d42ea2dd1
       };
     };
 
     // In a find method we need to process the entire page
     if (method === 'find') {
       // Map all data to include the `user` information
-<<<<<<< HEAD
-<<<<<<< HEAD
-      
-=======
 
->>>>>>> 1c57ebb9255fa17ed15d6ef1e76473b74dd9a7d6
-=======
-
->>>>>>> c540656a83e4ca9c91b8a369377f8d9d42ea2dd1
       context.result.data = await Promise.all(result.data.map(addUser));
     } else {
       // Otherwise just update the single result
